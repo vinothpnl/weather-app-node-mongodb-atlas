@@ -4,10 +4,16 @@ const AvgTemp = mongoose.model('avgTemp', {
     location: {
         type: String
     },
-    avgTemp: {
+    tempLow: {
+        type: Number,
+        required: true
+    },
+    tempHigh: {
         type: Number,
         required: true
     }
 });
 
-module.exports = AvgTemp;
+module.exports = {
+    AvgTemp
+};

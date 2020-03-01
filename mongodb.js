@@ -15,9 +15,10 @@ MongoClient.connect(connectionUrl, {
 
     // insert one
 
-    // db.collection('location').insertOne({
-    //     location: 'Netherlands',
-    //     averageTemperature: '2 degree'
+    // db.collection('average temperature').insertOne({
+    //     location: 'Sfax',
+    //     tempLow: 19,
+    //     tempHigh: 30
     // }, (error, result) => {
     //     if(error){
     //         return console.log(`Unable to insert the location details`);
@@ -50,8 +51,8 @@ MongoClient.connect(connectionUrl, {
 
     // Find document
 
-    db.collection('location').find({
-        averageTemperature: '2 degree'
+    db.collection('average temperature').findOne({
+        location: 'Sfax' 
     }, (error, result) => {
         if (error) {
             return console.log(`Unable to find documents: ${error}`);

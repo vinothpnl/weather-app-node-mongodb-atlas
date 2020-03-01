@@ -1,14 +1,15 @@
 const request = require('request');
 
-let geoCodeUrl = '';
-let headers = {
+let geoCodeUrl = '',
+ headers = {
   'Content-Type': 'application/json'
-}
-let getParam = {};
-let coordinates = {};
+},
+ getParam = {},
+ coordinates = {};
 
 
-//fetch geo location
+// Fetch geo location from mapbox API server
+
 let fetchGeoLocation = (req) => {
   let location = req.body.location;
   geoCodeUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${location}.json?access_token=pk.eyJ1Ijoidmlub3RocG5sIiwiYSI6ImNrNzh1N21sZzBpdXkzbG55dm9ndW84ZTAifQ.Sop4kW96pEtuId_rmEqNkA&limit=1`;
@@ -35,7 +36,8 @@ let fetchGeoLocation = (req) => {
   });
 }
 
-// Fetch weather details
+// Fetch weather details from darksky API server
+
 const fetchWeatherDetails = (latitude, longitude) => {
   return new Promise((resolve, reject) => {
     let fetchWeatherUrl = `https://api.darksky.net/forecast/225a9ac8922cbfe39420b66c87328302/${latitude},${longitude}?units=si`;
@@ -55,7 +57,8 @@ const fetchWeatherDetails = (latitude, longitude) => {
       console.log(`Time Zone: ${JSON.stringify(response.body.timezone)}`)
       weather = {
         currentTemp: JSON.stringify(response.body.currently.temperature),
-        precipProbability: JSON.stringify(response.body.currently.precipProbability)
+        precipProbability: JSON.stringify(response.body.currently.precipProbability),
+        time: JSON.stringify(response.body.currently.time)
       }
       resolve(weather);
     });

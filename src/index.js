@@ -29,7 +29,7 @@ app.post('/avgtempinsfax', (req, res) => {
 
         // find document
 
-        db.collection('average temperature').findOne(req.body, (error, result) => {
+        db.collection('avgtemps').findOne(req.body, (error, result) => {
             if (error) {
                 return console.log(`Unable to find documents: ${error}`);
             }
@@ -38,6 +38,9 @@ app.post('/avgtempinsfax', (req, res) => {
                 res.status(404);
                 res.send('Unable to find the document!');
             } else {
+                console.log(`Location: ${req.body.location},
+                Highest temperature: ${result.tempHigh},
+                Lowest temperature: ${result.tempLow}`)
                 res.send(result)
             }
         });
@@ -47,6 +50,8 @@ app.post('/avgtempinsfax', (req, res) => {
 
 let weatherReport = '',
     coordinates = {};
+
+// Function get the live weather report from open API servers
 
 const getLiveReport = async (req) => {
     try {
@@ -60,12 +65,13 @@ const getLiveReport = async (req) => {
     }
     return weatherReport
 }
+
 // Current temperature in Covilha or any Cities in the world can be retrieved
 
 app.post('/currenttempincovilha', (req, res) => {
     let finalDoc = '';
     let doc = {};
-    const start = async () => {
+    const invokeLiveReport = async () => {
         const test = await getLiveReport(req);
         finalDoc = `Current Temperature in ${req.body.location} is ${weatherReport.currentTemp} degrees. There's a ${weatherReport.precipProbability}% chance of rain`;
        console.log(`Weather report: ${finalDoc}`)
@@ -82,8 +88,10 @@ app.post('/currenttempincovilha', (req, res) => {
             res.send(e);
         })
     }
-    start()
+    invokeLiveReport()
 });
+
+// server
 
 app.listen(port, () => {
     console.log(`The server is up and running on port ${port}`);

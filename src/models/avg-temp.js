@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+// Average temperature Model
+
 const AvgTemp = mongoose.model('avgTemp', {
     location: {
         type: String
